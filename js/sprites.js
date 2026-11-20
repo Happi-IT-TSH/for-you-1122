@@ -10,7 +10,10 @@ const HAIR = '#22202c';
 const GOLD = '#f2cf7a';
 const CREAM = '#f6efd8';
 const JEAN = '#5a7fb5';
-const SHIRT = '#9cc9ee';
+const TEE = '#f8f6ef';
+const JACKET = '#2a2a34';
+const PANTS = '#4f74bd';
+const PANTS_DARK = '#3f5f9f';
 // [左腿x偏移, 右腿x偏移, 左腿抬起, 右腿抬起]
 const LEGS = [[0, 0, 0, 0], [-1, 1, 0, 1], [1, -1, 1, 0]];
 
@@ -51,19 +54,22 @@ export function drawBoy(c, x, y, o = {}) {
   const [la, ra, ll, rl] = LEGS[f];
   const Y = y + (f === 1 ? -1 : 0);
   // 腿与鞋
-  px(c, x + 5 + la, y - 4 - ll, 2, 3, SKIN);
+  px(c, x + 5 + la, y - 4 - ll, 2, 3, PANTS);
   px(c, x + 5 + la, y - 1 - ll, 2, 1, '#ffffff');
-  px(c, x + 9 + ra, y - 4 - rl, 2, 3, SKIN);
+  px(c, x + 9 + ra, y - 4 - rl, 2, 3, PANTS);
   px(c, x + 9 + ra, y - 1 - rl, 2, 1, '#ffffff');
-  // 牛仔短裤
-  px(c, x + 4, Y - 8, 8, 4, '#6f8fc0');
-  px(c, x + 4, Y - 5, 8, 1, '#5a79a8');
-  // 上衣与手臂
-  px(c, x + 4, Y - 15, 8, 7, SHIRT);
-  px(c, x + 7, Y - 15, 2, 1, '#ffffff');
-  px(c, x + 3, Y - 15, 1, 3, SHIRT);
+  // 蓝色长裤
+  px(c, x + 4, Y - 8, 8, 4, PANTS);
+  px(c, x + 7, Y - 6, 2, 2, PANTS_DARK);
+  // 白色上衣 + 敞开的黑色短袖外套
+  px(c, x + 4, Y - 15, 8, 7, TEE);
+  px(c, x + 4, Y - 15, 2, 7, JACKET);
+  px(c, x + 10, Y - 15, 2, 7, JACKET);
+  px(c, x + 6, Y - 15, 1, 2, JACKET);
+  px(c, x + 9, Y - 15, 1, 2, JACKET);
+  px(c, x + 3, Y - 15, 1, 3, JACKET);
   px(c, x + 3, Y - 12, 1, 3, SKIN);
-  px(c, x + 12, Y - 15, 1, 3, SHIRT);
+  px(c, x + 12, Y - 15, 1, 3, JACKET);
   px(c, x + 12, Y - 12, 1, 3, SKIN);
   // 头、蓬蓬头发
   px(c, x + 4, Y - 23, 8, 8, SKIN);
