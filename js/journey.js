@@ -15,6 +15,9 @@ const $ = (id) => document.getElementById(id);
 const HEART_XS = Object.freeze([80, ...STOPS.slice(0, -1).flatMap((_, i) => [stopX(i) + 70, stopX(i) + 140])]);
 const HEART_RISE = 34;
 const LOVE_EVERY = 0.9;
+// “偷拍一张”得到的拍立得：按那晚真实照片的构图画的像素画
+const SEA_PHOTO_URL = 'assets/sea-photo.png';
+new Image().src = SEA_PHOTO_URL;   // 提前加载，按下快门时立刻出现
 
 let collected = 0;
 export const HEART_TOTAL = HEART_XS.length;
@@ -160,7 +163,7 @@ export function startJourney(onDone) {
     if (action.id === 'photo') {
       sfx.shutter();
       vibrate(40);
-      el.polaroid.src = canvas.toDataURL();
+      el.polaroid.src = SEA_PHOTO_URL;
       el.polaroid.classList.remove('hidden');
       el.flash.classList.remove('go');
       void el.flash.offsetWidth;
