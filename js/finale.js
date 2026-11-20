@@ -2,7 +2,7 @@
 import { CONFIG, LETTER, LETTER_SIGN } from './config.js';
 import { sfx, playBirthday } from './audio.js';
 import { drawBoy, drawGirl, drawHeart } from './sprites.js';
-import { heartsCollected } from './journey.js';
+import { heartsCollected, starsCollected } from './journey.js';
 import { burstAt, centerOf, floatUp, vibrate, flashScreen } from './fx.js';
 
 const STAR_COUNT = 34;
@@ -169,7 +169,7 @@ function showWish(title) {
     return row;
   });
   title.replaceChildren(...lines);
-  $('tally').textContent = CONFIG.heartsNote.replace('{n}', heartsCollected());
+  $('tally').textContent = CONFIG.heartsNote.replace('{s}', starsCollected()).replace('{n}', heartsCollected());
 }
 
 function setupCouple(couple) {

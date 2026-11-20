@@ -11,7 +11,8 @@ const GAP = 210;
 const stopX = (i) => 120 + i * GAP;
 const LAST = STOPS.length - 1;
 const $ = (id) => document.getElementById(id);
-// 路上可以捡的小爱心：出发后一颗，之后每两站之间两颗
+// 路上可以捡的小东西：出发后一颗，之后每两站之间两颗。
+// 白天捡到的是金色小星星（开心），入夜之后（去看海那一段起）才是爱心（心动）。
 const HEART_XS = Object.freeze([80, ...STOPS.slice(0, -1).flatMap((_, i) => [stopX(i) + 70, stopX(i) + 140])]);
 const HEART_RISE = 34;
 const LOVE_EVERY = 0.9;
@@ -19,9 +20,13 @@ const LOVE_EVERY = 0.9;
 const SEA_PHOTO_URL = 'assets/sea-photo.png';
 new Image().src = SEA_PHOTO_URL;   // 提前加载，按下快门时立刻出现
 
-let collected = 0;
-export const HEART_TOTAL = HEART_XS.length;
-export const heartsCollected = () => collected;
+const NIGHT_FROM_X = stopX(5);
+const isHeart = (i) => HEART_XS[i] > NIGHT_FROM_X;
+const STAR = Object.freeze([' # ', '###', ' # ']);
+
+let collected = Object.freeze({ stars: 0, hearts: 0 });
+export const heartsCollected = () => collected.hearts;
+export const starsCollected = () => collected.stars;
 
 export function startJourney(onDone) {
   const root = $('journey');
@@ -65,15 +70,17 @@ export function startJourney(onDone) {
     const fresh = HEART_XS.map((hx, i) => i).filter((i) => HEART_XS[i] <= x && !st.got.includes(i));
     if (!fresh.length) return;
     set({ got: [...st.got, ...fresh] });
-    collected = st.got.length;
-    el.hearts.textContent = `♥ ${collected}`;
+    const hearts = st.got.filter(isHeart).length;
+    collected = Object.freeze({ stars: st.got.length - hearts, hearts });
+    el.hearts.textContent = hearts ? `★ ${collected.stars}  ♥ ${hearts}` : `★ ${collected.stars}`;
     el.hearts.classList.remove('bump');
     void el.hearts.offsetWidth;
     el.hearts.classList.add('bump');
     fresh.forEach((i) => {
       const pos = toScreen(HEART_XS[i], dims.gy - HEART_RISE);
-      burst(pos.x, pos.y, { count: 7, spread: 40, colors: ['#f06a8a', '#ffd27a', '#fff6e8'] });
-      floatUp(pos.x, pos.y - 10, '+1');
+      const heart = isHeart(i);
+      burst(pos.x, pos.y, { count: 7, spread: 40, colors: heart ? ['#f06a8a', '#ff8fa8', '#fff6e8'] : ['#ffd27a', '#fff6e8'] });
+      floatUp(pos.x, pos.y - 10, '+1', heart ? '#f06a8a' : '#ffd27a');
     });
     sfx.coin();
     vibrate(12);
@@ -83,7 +90,7 @@ export function startJourney(onDone) {
     bits = bits
       .map((b) => ({ ...b, x: b.x + b.vx * dt, y: b.y + b.vy * dt, life: b.life - dt * b.fade }))
       .filter((b) => b.life > 0);
-    if (!walking || st.reached < 2 || st.reached >= LAST) return;
+    if (!walking || st.reached < 5 || st.reached >= LAST) return;
     loveClock += dt;
     if (loveClock < LOVE_EVERY) return;
     loveClock = 0;
@@ -223,8 +230,15 @@ export function startJourney(onDone) {
       const sx = hx - camX;
       if (st.got.includes(i) || sx < -10 || sx > W + 10) return;
       const y = gy - HEART_RISE - 3 + Math.round(Math.sin(t * 3 + i) * 2);
-      drawHeart(c, sx - 3, y, '#f06a8a');
-      px(c, sx - 2, y + 1, 1, 1, '#ffd6e0');
+      if (isHeart(i)) {
+        drawHeart(c, sx - 3, y, '#f06a8a');
+        px(c, sx - 2, y + 1, 1, 1, '#ffd6e0');
+        return;
+      }
+      const big = Math.floor(t * 4 + i) % 2;
+      STAR.forEach((row, j) => [...row].forEach((ch, k) => { if (ch === '#') px(c, sx - 1 + k, y + 1 + j, 1, 1, '#ffd27a'); }));
+      px(c, sx, y + 2, 1, 1, '#fff6e8');
+      if (big) { px(c, sx, y, 1, 1, '#ffe9b0'); px(c, sx, y + 4, 1, 1, '#ffe9b0'); px(c, sx - 2, y + 2, 1, 1, '#ffe9b0'); px(c, sx + 2, y + 2, 1, 1, '#ffe9b0'); }
     });
 
     const walking = st.mode === 'walk' && st.hold;

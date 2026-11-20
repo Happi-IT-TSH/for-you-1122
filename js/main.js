@@ -7,7 +7,7 @@ import { startFinale } from './finale.js';
 import { burstAt, vibrate, initTapSparks, spawnDrift } from './fx.js';
 
 const LAYERS = Object.freeze([
-  { id: 'journey', no: 'LAYER 1 / 3', title: '共同回忆', sub: '从第一句“你好”开始', start: (next) => startJourney(next) },
+  { id: 'journey', no: 'LAYER 1 / 3', title: '共同回忆', sub: '从一句关于猫的话开始', start: (next) => startJourney(next) },
   { id: 'gift', no: 'LAYER 2 / 3', title: '生日礼物', sub: '有个小东西，想送给你', start: (next) => startGift(next) },
   { id: 'finale', no: 'LAYER 3 / 3', title: '想对你说的话', sub: '请慢慢看', start: () => startFinale() },
 ]);
