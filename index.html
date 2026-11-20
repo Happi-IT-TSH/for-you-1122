@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#ff9e7a">
+  <title>给葡萄 🦋</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Noto+Serif+SC:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+
+  <header id="topbar" class="hidden">
+    <div class="chips">
+      <span class="chip hidden" data-layer="1"><b>1</b>回忆</span>
+      <span class="chip hidden" data-layer="2"><b>2</b>礼物</span>
+      <span class="chip hidden" data-layer="3"><b>3</b>想说的话</span>
+    </div>
+    <button id="muteBtn" class="icon-btn" aria-label="声音开关">♪</button>
+  </header>
+
+  <!-- 暗号门 -->
+  <section id="gate" class="screen active">
+    <div class="gate-sun"></div>
+    <div class="gate-sea"></div>
+    <div id="gateHearts" class="gate-hearts"></div>
+    <div class="gate-box">
+      <p class="tiny">FOR YOU · 11.22</p>
+      <h1>给 葡萄</h1>
+      <p class="sub">这里藏着三层小秘密<br>要说对暗号才能打开</p>
+      <form id="gateForm" autocomplete="off">
+        <input id="gateInput" type="text" placeholder="输入暗号" maxlength="12" aria-label="暗号">
+        <button type="submit" class="btn">打开 ♥</button>
+      </form>
+      <p id="gateMsg" class="hint">提示：做这个网站的人，叫什么？</p>
+    </div>
+  </section>
+
+  <!-- 第一层：共同回忆 -->
+  <section id="journey" class="screen">
+    <canvas id="world"></canvas>
+    <div id="hud" class="hud">
+      <span id="heartCount" class="hud-hearts">♥ 0</span>
+      <span id="hudDots" class="hud-dots"></span>
+    </div>
+    <div id="walkHint" class="walk-hint">按住屏幕 ▶ 陪乌龙往前走</div>
+    <div id="floaters"></div>
+    <div id="flash"></div>
+    <div id="card" class="card hidden">
+      <div class="card-date" id="cardDate"></div>
+      <h3 id="cardTitle"></h3>
+      <p id="cardText"></p>
+      <img id="polaroid" class="polaroid hidden" alt="偷拍的照片">
+      <div class="card-actions">
+        <button id="actBtn" class="btn btn-accent hidden"></button>
+        <button id="nextBtn" class="btn hidden">继续往前走 ▶</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 第二层：礼物 -->
+  <section id="gift" class="screen">
+    <div id="giftSparks" class="gate-hearts"></div>
+    <div class="gift-stage">
+      <div id="rays" class="rays"></div>
+      <canvas id="boxCanvas" width="64" height="64"></canvas>
+      <canvas id="necklaceCanvas" width="56" height="56" class="hidden"></canvas>
+      <div id="butterflies"></div>
+    </div>
+    <p id="giftPrompt" class="gift-prompt">点一下礼物盒</p>
+    <p id="giftTip" class="gift-tip hidden">点点蝴蝶和项链试试 ✦</p>
+    <div id="giftText" class="gift-text"></div>
+    <button id="giftNext" class="btn hidden">还有最后一层 ▶</button>
+  </section>
+
+  <!-- 第三层：想说的话 -->
+  <section id="finale" class="screen">
+    <div id="stars" class="stars"></div>
+    <canvas id="fwCanvas"></canvas>
+    <div id="letter" class="letter">
+      <div id="letterBody"></div>
+    </div>
+    <div id="wish" class="wish hidden">
+      <p class="tiny">HAPPY BIRTHDAY</p>
+      <h2 id="wishTitle"></h2>
+      <p class="sub">轻触夜空，再放几朵烟花</p>
+      <p id="tally" class="tally"></p>
+    </div>
+    <canvas id="coupleCanvas" width="64" height="40" class="hidden"></canvas>
+    <div class="finale-actions">
+      <button id="lightBtn" class="btn btn-accent hidden">🎆 点亮夜空</button>
+      <button id="replayBtn" class="btn btn-ghost hidden">从头再看一次</button>
+    </div>
+  </section>
+
+  <div id="interstitial" class="interstitial hidden">
+    <div class="inter-line"></div>
+    <p class="tiny" id="interNo"></p>
+    <h2 id="interTitle"></h2>
+    <p class="sub" id="interSub"></p>
+    <div class="inter-line"></div>
+  </div>
+  <div id="fx"></div>
+  <div class="vignette"></div>
+</div>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
